@@ -363,32 +363,55 @@ function group(array, keySelector, valueSelector) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  value: '',
+
+  element(value) {
+    const newBuilder = Object.create(this);
+    newBuilder.value = this.value + value;
+    return newBuilder;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    const newBuilder = Object.create(this);
+    newBuilder.value = `${this.value}#${value}`;
+    return newBuilder;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    const newBuilder = Object.create(this);
+    newBuilder.value = `${this.value}.${value}`;
+    return newBuilder;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    const newBuilder = Object.create(this);
+    newBuilder.value = `${this.value}[${value}]`;
+    return newBuilder;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    const newBuilder = Object.create(this);
+    newBuilder.value = `${this.value}:${value}`;
+    return newBuilder;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    const newBuilder = Object.create(this);
+    newBuilder.value = `${this.value}::${value}`;
+    return newBuilder;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
+  combine(selector1, combinator, selector2) {
+    const qwe1 = selector1.stringify();
+    const qwe2 = selector2.stringify();
+    this.value = `${qwe1} ${combinator} ${qwe2}`;
+    return this;
+  },
+
+  stringify() {
+    const cur = this.value;
+    this.value = '';
+    return cur;
   },
 };
 
